@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]/[action]")]
-    [ApiController]
+	[Route("api/[controller]/[action]")]
+	[ApiController]
 	[AllowAnonymous]
 	public class UserController : ControllerBase
 	{
-        private readonly UserService userService;
+		private readonly UserService userService;
 
-        public UserController(UserService userService)
+		public UserController(UserService userService)
 		{
-            this.userService = userService;
-        }
+			this.userService = userService;
+		}
 
 		[HttpGet]
 		public async Task<ActionResult<UserModelResult>> Single(int userId, CancellationToken cancellationToken)
@@ -37,16 +37,16 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<UsersModelResult>> List(int userId, CancellationToken cancellationToken)
 		{
-            var result = await userService.List(userId, cancellationToken);
+			var result = await userService.List(userId, cancellationToken);
 
-            if (result.IsValid)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
-        }
+			if (result.IsValid)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
 	}
 }

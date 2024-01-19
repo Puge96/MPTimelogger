@@ -7,46 +7,46 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-	[Route("api/[controller]/[action]")]
-	[ApiController]
-	[AllowAnonymous]
-	public class CustomerController : ControllerBase
-	{
-        private readonly CustomerService customerService;
-
-        public CustomerController(CustomerService customerService)
+		[Route("api/[controller]/[action]")]
+		[ApiController]
+		[AllowAnonymous]
+		public class CustomerController : ControllerBase
 		{
-            this.customerService = customerService;
-        }
+				private readonly CustomerService customerService;
 
-		[HttpGet]
-        public async Task<ActionResult<CustomerModelResult>> Single(int userId, int customerId, CancellationToken cancellationToken)
-		{
-			var result = await customerService.Single(userId, customerId, cancellationToken);
+				public CustomerController(CustomerService customerService)
+				{
+						this.customerService = customerService;
+				}
 
-			if (result.IsValid)
-			{
-				return Ok(result);
-			}
-			else
-			{
-				return BadRequest(result);
-			}
+				[HttpGet]
+				public async Task<ActionResult<CustomerModelResult>> Single(int userId, int customerId, CancellationToken cancellationToken)
+				{
+						var result = await customerService.Single(userId, customerId, cancellationToken);
+
+						if (result.IsValid)
+						{
+								return Ok(result);
+						}
+						else
+						{
+								return BadRequest(result);
+						}
+				}
+
+				[HttpGet]
+				public async Task<ActionResult<CustomersModelResult>> List(int userId, CancellationToken cancellationToken)
+				{
+						var result = await customerService.List(userId, cancellationToken);
+
+						if (result.IsValid)
+						{
+								return Ok(result);
+						}
+						else
+						{
+								return BadRequest(result);
+						}
+				}
 		}
-
-		[HttpGet]
-		public async Task<ActionResult<CustomersModelResult>> List(int userId, CancellationToken cancellationToken)
-		{
-            var result = await customerService.List(userId, cancellationToken);
-
-            if (result.IsValid)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
-        }
-	}
 }

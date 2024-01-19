@@ -13,16 +13,16 @@ namespace API.Controllers
 	[AllowAnonymous]
 	public class ProjectController : ControllerBase
 	{
-        private readonly ProjectService projectService;
+		private readonly ProjectService projectService;
 
 
-        public ProjectController(ProjectService projectService)
+		public ProjectController(ProjectService projectService)
 		{
-            this.projectService = projectService;
-        }
+			this.projectService = projectService;
+		}
 
 		[HttpGet]
-        public async Task<ActionResult<ProjectModelResult>> Single(int userId, int projectId, CancellationToken cancellationToken)
+		public async Task<ActionResult<ProjectModelResult>> Single(int userId, int projectId, CancellationToken cancellationToken)
 		{
 			var result = await projectService.Single(userId, projectId, cancellationToken);
 
@@ -39,32 +39,32 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<ProjectsModelResult>> List(int userId, CancellationToken cancellationToken)
 		{
-            var result = await projectService.List(userId, cancellationToken);
+			var result = await projectService.List(userId, cancellationToken);
 
-            if (result.IsValid)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
-        }
+			if (result.IsValid)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
 
 		[HttpPost]
 		public async Task<ActionResult<ProjectModelResult>> Create(ProjectCreateModel model, CancellationToken cancellationToken)
 		{
-            var result = await projectService.Create(model, cancellationToken);
+			var result = await projectService.Create(model, cancellationToken);
 
-            if (result.IsValid)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(result);
-            }
-        }
+			if (result.IsValid)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
 
 		[HttpPut]
 		public async Task<ActionResult<ProjectModelResult>> Update(ProjectUpdateModel model, CancellationToken cancellationToken)
