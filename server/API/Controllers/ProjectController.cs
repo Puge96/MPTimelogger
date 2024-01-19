@@ -15,7 +15,6 @@ namespace API.Controllers
 	{
 		private readonly ProjectService projectService;
 
-
 		public ProjectController(ProjectService projectService)
 		{
 			this.projectService = projectService;
