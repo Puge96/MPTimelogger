@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Projects.Models
 {
-    public class ProjectModelResult : BaseJsonResult
-    {
-        public ProjectDTO? Project { get; set; }
-    }
+	public class ProjectModelResult : BaseJsonResult
+	{
+		public ProjectDTO? Project { get; set; }
+	}
 }

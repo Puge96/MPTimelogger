@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace Application.Customers.Models
 {
-    public class CustomerDTO
-    {
-        public CustomerDTO(Customer model)
-        {
-            this.CustomerId = model.CustomerId;
-            this.CompanyId = model.CompanyId;
-            this.Name = model.Name;
-        }
+	public class CustomerDTO
+	{
+		public CustomerDTO(Customer model)
+		{
+			this.CustomerId = model.CustomerId;
+			this.CompanyId = model.CompanyId;
+			this.Name = model.Name;
+		}
 
-        public int CustomerId { get; set; }
+		public int CustomerId { get; set; }
 
-        public int CompanyId { get; set; }
+		public int CompanyId { get; set; }
 
-        public string Name { get; set; } = string.Empty;
-    }
+		public string Name { get; set; } = string.Empty;
+	}
 }

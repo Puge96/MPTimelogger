@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Application.Shared
 {
-    public class BaseJsonResult
-    {
-        public List<string> Errors { get; set; } = new();
-        public bool IsValid
-        {
-            get
-            {
-                return !Errors.Any();
-            }
-        }
-    }
+	public class BaseJsonResult
+	{
+		public List<string> Errors { get; set; } = new();
+		public bool IsValid
+		{
+			get
+			{
+				return !Errors.Any();
+			}
+		}
+	}
 }

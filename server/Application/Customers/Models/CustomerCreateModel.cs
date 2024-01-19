@@ -2,13 +2,13 @@
 
 namespace Application.Customers.Models
 {
-    public class CustomerCreateModel
-    {
-        public int UserId { get; set; }
+	public class CustomerCreateModel
+	{
+		public int UserId { get; set; }
 
-        public int CompanyId { get; set; }
+		public int CompanyId { get; set; }
 
-        [StringLength(255)]
-        public string Name { get; set; } = string.Empty;
-    }
+		[StringLength(255)]
+		public string Name { get; set; } = string.Empty;
+	}
 }

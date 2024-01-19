@@ -12,17 +12,18 @@ using System;
 
 namespace Application.Test
 {
-    public class Startup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("e-conomic interview test"));
-            services.AddScoped<ProjectService>();
-            services.AddScoped<UserService>();
-            services.AddScoped<TimeEntryService>();
-            services.AddScoped<CustomerService>();
-            services.AddScoped<ProjectService>();
-            services.AddScoped<CustomerService>();
-        }
-    }
+	// Start up for Application.Test required by xUnit.DependencyInjection that allows services to be added to the DI container
+	public class Startup
+	{
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("e-conomic interview test"));
+			services.AddScoped<ProjectService>();
+			services.AddScoped<UserService>();
+			services.AddScoped<TimeEntryService>();
+			services.AddScoped<CustomerService>();
+			services.AddScoped<ProjectService>();
+			services.AddScoped<CustomerService>();
+		}
+	}
 }

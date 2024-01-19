@@ -45,7 +45,7 @@ namespace API
 			});
 
 			// Add services required for swagger to work
-            services.AddControllers();
+			services.AddControllers();
 			services.AddDateOnlyTimeOnlyStringConverters();
 			services.AddSwaggerGen(c =>
 			{
@@ -54,10 +54,10 @@ namespace API
 					Title = "Timelogger API",
 					Version = "v1"
 				});
-            });
+			});
 
-            // Add services
-            services.AddScoped<ProjectService>();
+			// Add services
+			services.AddScoped<ProjectService>();
 			services.AddScoped<UserService>();
 			services.AddScoped<TimeEntryService>();
 			services.AddScoped<CustomerService>();
@@ -80,18 +80,18 @@ namespace API
 			}
 
 			// .NET 6 routing
-            app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+			app.UseRouting();
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
 
 			// Swagger
-            app.UseSwagger();
+			app.UseSwagger();
 			app.UseSwaggerUI();
 
 
-            var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
+			var serviceScopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
 			using (var scope = serviceScopeFactory.CreateScope())
 			{
 				SeedDatabase(scope);
@@ -129,14 +129,14 @@ namespace API
 				Company = dummyCompany
 			};
 
-            var dummyCustomer2 = new Customer
-            {
-                CustomerId = 2,
-                Name = "TV2 A/S",
-                Company = dummyCompany
-            };
+			var dummyCustomer2 = new Customer
+			{
+				CustomerId = 2,
+				Name = "TV2 A/S",
+				Company = dummyCompany
+			};
 
-            var dummyProject = new Project
+			var dummyProject = new Project
 			{
 				ProjectId = 1,
 				Customer = dummyCustomer1,
@@ -145,7 +145,7 @@ namespace API
 				Status = ProjectStatus.Open,
 				StartDate = DateOnly.FromDateTime(DateTime.UtcNow),
 				EndDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(2))
-            };
+			};
 
 			var dummyTimeEntry1 = new TimeEntry
 			{
@@ -156,21 +156,21 @@ namespace API
 				Hours = 1,
 			};
 
-            var dummyTimeEntry2 = new TimeEntry
-            {
-                ProjectId = 1,
-                UserId = 1,
-                Date = DateOnly.FromDateTime(DateTime.UtcNow),
-                Comment = "Research for client",
-                Hours = 4,
-            };
+			var dummyTimeEntry2 = new TimeEntry
+			{
+				ProjectId = 1,
+				UserId = 1,
+				Date = DateOnly.FromDateTime(DateTime.UtcNow),
+				Comment = "Research for client",
+				Hours = 4,
+			};
 
-            context.Company.Add(dummyCompany);
-            context.User.Add(dummyUser1);
-            context.User.Add(dummyUser2);
-            context.Customer.Add(dummyCustomer1);
-            context.Customer.Add(dummyCustomer2);
-            context.Project.Add(dummyProject);
+			context.Company.Add(dummyCompany);
+			context.User.Add(dummyUser1);
+			context.User.Add(dummyUser2);
+			context.Customer.Add(dummyCustomer1);
+			context.Customer.Add(dummyCustomer2);
+			context.Project.Add(dummyProject);
 			context.TimeEntry.Add(dummyTimeEntry1);
 			context.TimeEntry.Add(dummyTimeEntry2);
 

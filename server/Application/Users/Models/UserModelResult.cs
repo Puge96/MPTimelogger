@@ -2,8 +2,8 @@
 
 namespace Application.Users.Models
 {
-    public class UserModelResult : BaseJsonResult
-    {
-        public UserDTO? User { get; set; }
-    }
+	public class UserModelResult : BaseJsonResult
+	{
+		public UserDTO? User { get; set; }
+	}
 }

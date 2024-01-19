@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Customers.Models
 {
-    public class CustomersModelResult : BaseJsonResult
-    {
-        public List<CustomerDTO> Customers { get; set; } = new List<CustomerDTO>();
-    }
+	public class CustomersModelResult : BaseJsonResult
+	{
+		public List<CustomerDTO> Customers { get; set; } = new List<CustomerDTO>();
+	}
 }

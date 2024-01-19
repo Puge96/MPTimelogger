@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.TimeEntries.Models
 {
-    public class TimeEntriesModelResult : BaseJsonResult
-    {
-        public List<TimeEntryDTO> TimeEntries { get; set; } = new List<TimeEntryDTO>();
-    }
+	public class TimeEntriesModelResult : BaseJsonResult
+	{
+		public List<TimeEntryDTO> TimeEntries { get; set; } = new List<TimeEntryDTO>();
+	}
 }
