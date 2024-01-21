@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using System;
+using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
@@ -39,6 +40,63 @@ namespace Data
 				.IsUnique();
 
 			base.OnModelCreating(modelBuilder);
+		}
+
+		public void SeedDatabase()
+		{
+			var dummyCompany = new Company
+			{
+				CompanyId = 1,
+				Name = "The Testing Company"
+			};
+
+			var dummyUser1 = new User
+			{
+				UserId = 1,
+				Name = "Mr. Freelancer",
+				Company = dummyCompany
+			};
+
+			var dummyUser2 = new User
+			{
+				UserId = 2,
+				Name = "The other guy",
+				Company = dummyCompany
+			};
+
+			var dummyCustomer1 = new Customer
+			{
+				CustomerId = 1,
+				Name = "Visma A/S",
+				Company = dummyCompany
+			};
+
+			var dummyCustomer2 = new Customer
+			{
+				CustomerId = 2,
+				Name = "TV2 A/S",
+				Company = dummyCompany
+			};
+
+			var dummyProject = new Project
+			{
+				ProjectId = 1,
+				Customer = dummyCustomer1,
+				Company = dummyCompany,
+				Name = "Digital marketing 2024",
+				Status = ProjectStatus.Open,
+				StartDate = DateOnly.FromDateTime(DateTime.UtcNow),
+				EndDate = DateOnly.FromDateTime(DateTime.UtcNow.AddMonths(2))
+			};
+
+			this.Company.Add(dummyCompany);
+			this.User.Add(dummyUser1);
+			this.User.Add(dummyUser2);
+			this.Customer.Add(dummyCustomer1);
+			this.Customer.Add(dummyCustomer2);
+			this.Project.Add(dummyProject);
+
+			this.SaveChanges();
 		}
 	}
 }
