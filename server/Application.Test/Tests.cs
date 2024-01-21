@@ -1,11 +1,8 @@
-﻿using Application.Customers;
-using Application.Customers.Models;
-using Application.Projects;
+﻿using Application.Projects;
 using Application.Projects.Models;
 using Application.TimeEntries;
 using Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Any;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +20,10 @@ namespace Application.Test
 		public Tests(DataContext dataContext, ProjectService projectService, TimeEntryService timeEntryService)
 		{
 			this.dataContext = dataContext;
+			// Reset database and test data
+			this.dataContext.Database.EnsureDeleted();
+			this.dataContext.Database.EnsureCreated();
+			this.dataContext.SeedDatabase();
 			this.projectService = projectService;
 			this.timeEntryService = timeEntryService;
 		}
@@ -31,7 +32,6 @@ namespace Application.Test
 		[Fact]
 		public async Task Project_Create_Valid_ReturnsSuccess()
 		{
-			await CleanAndPopulateDefaultData();
 			var projectModel = new ProjectCreateModel
 			{
 				UserId = 1,
@@ -52,7 +52,7 @@ namespace Application.Test
 		[Fact]
 		public async Task Project_Create_InvalidDate_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
+
 			var invalidModel = new ProjectCreateModel
 			{
 				UserId = 1,
@@ -74,7 +74,7 @@ namespace Application.Test
 		[Fact]
 		public async Task Project_Delete_ClosedProject_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
+
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
 
 			var updateResult = await projectService.Update(new ProjectUpdateModel
@@ -99,7 +99,6 @@ namespace Application.Test
 		[Fact]
 		public async Task Project_Delete_ProjectWithTimeEntry_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
 
 			var timeEntryResult = await timeEntryService.Create(new TimeEntries.Models.TimeEntryCreateModel
@@ -124,7 +123,6 @@ namespace Application.Test
 		[Fact]
 		public async Task TimeEntry_Create_Valid_ReturnsSuccess()
 		{
-			await CleanAndPopulateDefaultData();
 
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
 
@@ -144,10 +142,7 @@ namespace Application.Test
 		[Fact]
 		public async Task TimeEntry_Create_InvalidHours_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
-
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
-
 			var timeEntryResult1 = await timeEntryService.Create(new TimeEntries.Models.TimeEntryCreateModel
 			{
 				UserId = 1,
@@ -176,10 +171,7 @@ namespace Application.Test
 		[Fact]
 		public async Task TimeEntry_Create_TooManyHours_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
-
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
-
 			var timeEntryResult1 = await timeEntryService.Create(new TimeEntries.Models.TimeEntryCreateModel
 			{
 				UserId = 1,
@@ -222,10 +214,7 @@ namespace Application.Test
 		[Fact]
 		public async Task TimeEntry_Update_InvalidHours_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
-
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
-
 			var timeEntryResult = await timeEntryService.Create(new TimeEntries.Models.TimeEntryCreateModel
 			{
 				UserId = 1,
@@ -253,10 +242,7 @@ namespace Application.Test
 		[Fact]
 		public async Task TimeEntry_Update_TooManyHours_ReturnsError()
 		{
-			await CleanAndPopulateDefaultData();
-
 			var testProject = await dataContext.Project.FirstOrDefaultAsync(CancellationToken.None);
-
 			var timeEntryResult1 = await timeEntryService.Create(new TimeEntries.Models.TimeEntryCreateModel
 			{
 				UserId = 1,
@@ -307,53 +293,5 @@ namespace Application.Test
 			Assert.Contains("Unable to update time registration as number of hours for the day would exceed 24 hours.", updateResult.Errors);
 		}
 		#endregion
-
-		private async Task CleanAndPopulateDefaultData()
-		{
-			await dataContext.Database.EnsureDeletedAsync();
-			await dataContext.Database.EnsureCreatedAsync();
-
-			if (!await dataContext.Company.AnyAsync(x => x.Name == "Test company", CancellationToken.None))
-			{
-				await dataContext.Company.AddAsync(new Data.Entities.Company
-				{
-					CompanyId = 1,
-					Name = "Test company"
-				});
-			}
-
-			if (!await dataContext.User.AnyAsync(x => x.Name == "Test user", CancellationToken.None))
-			{
-				await dataContext.User.AddAsync(new Data.Entities.User
-				{
-					CompanyId = 1,
-					Name = "Test user"
-				});
-			}
-
-			if (!await dataContext.Customer.AnyAsync(x => x.Name == "Test customer", CancellationToken.None))
-			{
-				await dataContext.Customer.AddAsync(new Data.Entities.Customer
-				{
-					CompanyId = 1,
-					Name = "Test customer"
-				});
-			}
-
-			if (!await dataContext.Project.AnyAsync(x => x.Name == "Test project", CancellationToken.None))
-			{
-				await dataContext.Project.AddAsync(new Data.Entities.Project
-				{
-					CompanyId = 1,
-					CustomerId = 1,
-					Name = "Test project",
-					Status = Data.Entities.ProjectStatus.Open,
-					StartDate = DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-10)),
-					EndDate = DateOnly.FromDateTime(DateTime.UtcNow.AddYears(10))
-				});
-			}
-
-			await dataContext.SaveChangesAsync(CancellationToken.None);
-		}
 	}
 }
