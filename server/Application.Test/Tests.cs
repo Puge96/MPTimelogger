@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Application.Test
 {
-	[Collection("YourCollection")]
+	[Collection("MyTestCollection")]
 	public class Tests
 	{
 		private readonly DataContext dataContext;
